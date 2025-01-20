@@ -1,0 +1,76 @@
+_SELECT_______________________________________________
+
+1. Selezionare tutti gli studenti nati nel 1990 (160)
+SELECT COUNT(*) FROM `students`
+WHERE YEAR(`date_of_birth`) = 1990;
+
+2. Selezionare tutti i corsi che valgono più di 10 crediti (479)
+SELECT COUNT(*) FROM `courses`
+WHERE `cfu` > 10;
+
+3. Selezionare tutti gli studenti che hanno più di 30 anni
+SELECT * FROM `students`
+WHERE YEAR(`date_of_birth`) < 1994;
+
+4. Selezionare tutti i corsi del primo semestre del primo anno di un qualsiasi corso di
+laurea (286)SELECT COUNT(*) FROM `courses`
+WHERE `year` = 1 AND `period` = "I semestre";
+
+5. Selezionare tutti gli appelli d'esame che avvengono nel pomeriggio (dopo le 14) del
+20/06/2020 (21)
+SELECT COUNT(*) FROM `exams`
+WHERE `date` = "2020-06-20" AND `hour` > "14:00:00" ;
+
+6. Selezionare tutti i corsi di laurea magistrale (38)
+SELECT COUNT(*) FROM `degrees`
+WHERE `level` = "magistrale";
+
+7. Da quanti dipartimenti è composta l'università? (12)
+SELECT COUNT(*) FROM `departments`;
+
+8. Quanti sono gli insegnanti che non hanno un numero di telefono? (50)
+SELECT COUNT(*) FROM `teachers`
+WHERE `phone` IS NOT NULL;
+
+9. Inserire nella tabella degli studenti un nuovo record con i propri dati (per il campo
+degree_id, inserire un valore casuale)
+INSERT INTO students (degree_id, name, surname, date_of_birth, fiscal_code, enrolment_date , registration_number, email)
+VALUES ('75', 'Carlo', 'Dettori', '1997-05-12', 'DTTCRL97E12I452B', '2025-01-20', '622033', 'dettoric07@gmail.com');
+
+10. Cambiare il numero dell’ufficio del professor Pietro Rizzo in 126
+UPDATE `teachers`
+SET office_number = '126'
+WHERE `id` = '125' ;
+
+11. Eliminare dalla tabella studenti il record creato precedentemente al punto 9
+prima: 
+SELECT `id` FROM `students`
+WHERE `surname` = 'Dettori'
+=(5001)
+dopo:
+DELETE FROM `students` WHERE `id`= '5001';
+
+
+_GROUP BY__________________________________________
+
+1. Contare quanti iscritti ci sono stati ogni anno
+SELECT COUNT(`id`) AS `tot_students`, YEAR(`enrolment_date`) AS `year_enroll`
+FROM `students`
+GROUP BY `year_enroll`
+ORDER BY `year_enroll`;
+
+2. Contare gli insegnanti che hanno l'ufficio nello stesso edificio
+SELECT COUNT(`id`) AS `same_building`, `office_address`
+FROM `teachers`
+GROUP BY `office_address`;
+
+3. Calcolare la media dei voti di ogni appello d'esame
+SELECT AVG(`vote`) AS `average_vote`, `exam_id`
+FROM `exam_student`
+GROUP BY `exam_id`;
+
+4. Contare quanti corsi di laurea ci sono per ogni dipartimento
+SELECT COUNT(*) AS `tot-courses`
+FROM `degrees`
+GROUP BY `address`;
+
