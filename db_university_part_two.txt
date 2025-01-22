@@ -58,3 +58,12 @@ WHERE `departments`.`name` = "Dipartimento di Matematica";
 7. BONUS: Selezionare per ogni studente il numero di tentativi sostenuti
 per ogni esame, stampando anche il voto massimo. Successivamente,
 filtrare i tentativi con voto minimo 18.
+SELECT `courses`.`id`, AVG(`exam_student`.`vote`) AS `media_vote`,`degrees`.*
+FROM `student-exam`
+JOIN `exams`
+ON `exam_student`.`exam_id` = `exam`.`id`
+JOIN `coures` ON `courses`.`id` = `exam`.`course_id`
+JOIN `degrees` ON `courses`.`id` = `courses`.`degrees_id`
+WHERE `exam_student`.`vote` >= 18
+GROUP BY `courses`.`id`
+ORDERED by `media_voto` DESC,
